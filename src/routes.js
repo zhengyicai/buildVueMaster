@@ -37,11 +37,12 @@ let routes = [
         iconCls: 'fa fa-id-card-o',//图标样式class
         children: [
             { path: '/homeIndex',component: resolve => require(['./views/desktop/HomeIndex.vue'], resolve),  name: '主页' },
-            { path: '/community',component: resolve => require(['./views/desktop/Community.vue'], resolve), name: '小区管理' },
+            { path: '/community',component: resolve => require(['./views/desktop/Community.vue'], resolve), name: '项目管理' },
+            { path: '/banner',component: resolve => require(['./views/desktop/Banner.vue'], resolve), name: '广告管理' },
             { path: '/building',component: resolve => require(['./views/desktop/Building.vue'], resolve), name: '楼栋管理' },
             { path: '/room',component: resolve => require(['./views/desktop/Room.vue'], resolve), name: '房间管理' },
             { path: '/resident',component: resolve => require(['./views/desktop/Resident.vue'], resolve), name: '住户管理' },
-            { path: '/equipmentRecord',component: resolve => require(['./views/desktop/EquipmentRecord.vue'], resolve), name: '设备开锁记录' },
+            { path: '/equipmentRecord',component: resolve => require(['./views/desktop/EquipmentRecord.vue'], resolve), name: '设备报警记录' },
             { path: '/equipment',component: resolve => require(['./views/desktop/Equipment.vue'], resolve), name: '设备管理' },
             { path: '/firm',component: resolve => require(['./views/desktop/Firm.vue'], resolve), name: '厂商管理' },
             // { path: '/work',component: resolve => require(['./views/desktop/Work.vue'], resolve), name: '工程商管理' },

@@ -78,7 +78,7 @@
 	export default {
 		data() {
 			return {
-				sysName:'智能门禁管理平台',
+				sysName:'逃生舱管理平台',
 				sysNo:'v1.0.0',
 				collapsed:false,
 				sysUserName: '',

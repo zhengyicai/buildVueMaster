@@ -29,7 +29,7 @@
 			</el-table-column>
 			<el-table-column prop="mobile" label="手机号" width="150" sortable>
 			</el-table-column>
-			<el-table-column prop="communityName" label="所属小区" width="150" sortable>
+			<el-table-column prop="communityName" label="所属项目" width="150" sortable>
 			</el-table-column>
             <el-table-column prop="equipmentNo" label="设备编号" width="150" sortable>
 			</el-table-column>

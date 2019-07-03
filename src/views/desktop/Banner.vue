@@ -18,34 +18,43 @@
 		<el-table :data="datalist" highlight-current-row v-loading="listLoading" style="width: 100%;">
 		
 			
-			<el-table-column prop="communityNo" label="项目编号" width="120" sortable>
+			<el-table-column prop="title" label="标题" width="120" sortable>
 			</el-table-column>
-			<el-table-column prop="communityName" label="项目名称" width="120" sortable>
+			<el-table-column prop="img" label="地址" width="400" sortable>
 			</el-table-column>
-			<el-table-column prop="province" label="省份" width="120" sortable>
+			<!-- <el-table-column prop="province" label="省份" width="120" sortable>
 			</el-table-column>
 			<el-table-column prop="city" label="城市" width="120" sortable>
 			</el-table-column>
 			<el-table-column prop="area" label="区县" min-width="120" sortable>
-			</el-table-column>
-			<el-table-column prop="address" label="地址" min-width="120" sortable>
-			</el-table-column>
+			</el-table-column> -->
+			
 			<!-- <el-table-column prop="createTime" :formatter="dateFormat"  label="创建时间" min-width="120" sortable>
 						
 			</el-table-column> -->
-
+		
+			<el-table-column  label="顺序" min-width="120">
+				<template slot-scope="scope">{{ scope.row.bannerIdx +1 }}</template>
+			</el-table-column>
 			<el-table-column  label="创建时间" min-width="120">
 				<template slot-scope="scope">{{ scope.row.createTime | moment('YYYY-MM-DD') }}</template>
+			</el-table-column>
+			<el-table-column  label="有效时间" min-width="120">
+				<template slot-scope="scope">{{ scope.row.stopTime | moment('YYYY-MM-DD') }}</template>
+			</el-table-column>
+			<el-table-column prop="startCount" label="播放起始时间" min-width="180" sortable>
+			</el-table-column>
+			<el-table-column prop="stopCount" label="播放结束时间" min-width="180" sortable>
 			</el-table-column>
 			<el-table-column  label="状态" min-width="80">
 				<template slot-scope="scope">{{ state(scope.row.state)}}</template>
 			</el-table-column>
 			
-			<el-table-column prop="userName" label="管理员用户名" min-width="150">
+			<!-- <el-table-column prop="userName" label="管理员用户名" min-width="150">
 			</el-table-column>
 			<el-table-column label="管理员状态" min-width="110">
 				<template slot-scope="scope">{{ state(scope.row.userStatus)}}</template>
-			</el-table-column>
+			</el-table-column> -->
 			<!-- <el-table-column prop="code" label="厂商编号" min-width="110">
 			</el-table-column> -->
 			<!-- <el-table-column prop="userWorkName" label="工程商用户名" min-width="150" sortable>
@@ -53,13 +62,13 @@
 			<el-table-column label="工程商状态" min-width="120">
 				<template slot-scope="scope">{{ state(scope.row.userWorkStatus)}}</template>
 			</el-table-column> -->
-			<el-table-column label="操作" min-width="340">
+			<el-table-column label="操作" min-width="240">
 				<template scope="scope">
 				<!-- <el-button size="small" type="primary"  @click="editWork(scope.$index,scope.row)">工程商</el-button> -->
 				<el-button size="small" type="primary"  @click="edit(scope.$index,scope.row)">编辑</el-button>
-				<el-button size="small" type="primary"  v-if='scope.row.sysUserId=="" ||  scope.row.sysUserId ==null' @click="addAdmin(scope.$index,scope.row)">新增管理</el-button>
-				<el-button size="small" type="warning"  v-if='scope.row.sysUserId!="" &&  scope.row.sysUserId !=null' @click="editAdmin(scope.$index,scope.row)">修改管理</el-button>
-                <!-- <el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button> -->
+				<!-- <el-button size="small" type="primary"  v-if='scope.row.sysUserId=="" ||  scope.row.sysUserId ==null' @click="addAdmin(scope.$index,scope.row)">新增管理</el-button>
+				<el-button size="small" type="warning"  v-if='scope.row.sysUserId!="" &&  scope.row.sysUserId !=null' @click="editAdmin(scope.$index,scope.row)">修改管理</el-button> -->
+                <el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -76,38 +85,28 @@
 
 		 <el-dialog   :title="formtitle" :visible.sync="dialogFormVisible" >
 			<el-form ref="form" :model="form" label-width="100px" @submit.prevent="onSubmit" style="margin:20px;">
-				<!-- <el-form-item label="项目编号">
+				<!-- <el-form-item label="广告编号">
 					<el-input v-model="form.communityNo"></el-input>
 				</el-form-item> -->
-				<el-form-item label="*项目名字">
-					<el-input v-model="form.communityName"></el-input>
+				<el-form-item label="标题">
+					<el-input v-model="form.title"></el-input>
 				</el-form-item>
-				<!-- <el-form-item label="*主机数">
-					<el-input type="number" v-model="form.masterNum"></el-input>
-				</el-form-item>
-				<el-form-item label="*用户数">
-					<el-input type="number" v-model="form.userNum"></el-input>
-				</el-form-item> -->
-				<el-form-item label="省" >
-					<el-select  v-model="form.provinceCode" placeholder="请选择省份" @change="selectProvince(form.provinceCode)">
-						<el-option :label="item.name" :key="item.code" :value="item.code" v-for="item in provinces">{{item.name}}</el-option>
-						
-					</el-select>
-				</el-form-item>
-				<el-form-item label="市">
-					<el-select v-model="form.cityCode" placeholder="请选择市" @change="selectCity(form.cityCode)">
-						<el-option :label="item.name" :key="item.code" :value="item.code" v-for="item in citys">{{item.name}}</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="区">
-					<el-select v-model="form.areaCode" placeholder="请选择区" @change="selectArea(form.areaCode)">
-						<el-option :label="item.name" :key="item.code" :value="item.code" v-for="item in areas">{{item.name}}</el-option>
-					</el-select>
+			
+				<el-form-item label="地址">
+					<el-input v-model="form.img"></el-input>
 				</el-form-item>
 
-				<el-form-item label="地址">
-					<el-input v-model="form.address"></el-input>
+				<el-form-item label="起始时间点">
+					<el-input v-model="form.startCount"></el-input>
 				</el-form-item>
+				<el-form-item label="结束时间点">
+					<el-input v-model="form.stopCount"></el-input>
+				</el-form-item>
+
+				<el-form-item label="有效时间" v-if='showUpdate =="0"'>
+					<el-input type="date" v-model="form.stopTime"></el-input>
+				</el-form-item>
+
 				<el-form-item label="状态">
 					<el-radio-group v-model="form.state">
 						<el-radio label="10">正常</el-radio>
@@ -125,82 +124,8 @@
 	
 		
 
-		<!-- 弹出新增管理 -->
-		<el-dialog   :title="formAdmintitle" :visible.sync="dialogFormAdminVisible" >
-			<el-form ref="form1" :model="form1" label-width="100px" @submit.prevent="onSubmit" style="margin:20px;">
-			
-				<el-form-item label="*用户名">
-					<el-input placeholder="请输入用户名" v-model="form1.userName"></el-input>
-				</el-form-item>
-				<el-form-item label="*登录名">
-					<el-input placeholder="请输入登录名" v-model="form1.loginName"></el-input>
-				</el-form-item>
-				<el-form-item label="*密码">
-					<el-input placeholder="请输入密码" v-model="form1.password"></el-input>
-				</el-form-item>
-				<el-form-item label="手机号">
-					<el-input placeholder="请输入手机号" v-model="form1.mobile"></el-input>
-				</el-form-item>
-				<el-form-item label="状态">
-					<el-radio-group v-model="form1.state">
-						<el-radio label="10">正常</el-radio>
-						<el-radio label="20">禁用</el-radio>
-					</el-radio-group>
-				</el-form-item>
-				
+		
 
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click="dialogFormVisible = false">取 消</el-button>
-				<el-button type="primary" @click="openAdmin()">确 定</el-button>
-			</div>
-        </el-dialog>
-
-
-		<!-- 弹出修改管理 -->
-		<el-dialog   :title="formAdmintitle" :visible.sync="dialogFormAdminUpdateVisible" >
-			<el-form ref="form1" :model="form1" label-width="100px" @submit.prevent="onSubmit" style="margin:20px;">
-			
-				<el-form-item label="用户名">
-					<el-input disabled="disabled"  placeholder="请输入用户名" v-model="form1.userName"></el-input>
-				</el-form-item>
-				
-				<el-form-item label="*密码">
-					<el-input placeholder="请输入密码" v-model="form1.password"></el-input>
-				</el-form-item>
-				
-
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click="dialogFormVisible = false">取 消</el-button>
-				<el-button type="primary" @click="openAdmin()">确 定</el-button>
-			</div>
-        </el-dialog>
-		<!-- 查看工程商信息 -->
-		<el-dialog   title=" 查看工程商信息" :visible.sync="dialogFormWorkVisible"  width="40%">
-			<el-form ref="form1" :model="form1" label-width="100px" @submit.prevent="onSubmit" style="margin:20px;">
-				<el-form-item label="工程商用户名">
-					<el-input disabled="disabled"  placeholder="请输入用户名" v-model="form2.userWorkName"></el-input>
-					<!-- {{form2.userWorkName}} -->
-				</el-form-item>
-				
-				<el-form-item label="工程商状态">
-					<!-- <el-input disabled="disabled"  placeholder="请输入用户名" v-model="form2.userWorkStatus"></el-input> -->
-					 {{ state(form2.userWorkStatus)}}
-					<!-- <template slot-scope="scope">{{ state(scope.form2.userWorkStatus)}}</template> -->
-				</el-form-item>
-				
-
-
-				
-				
-
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click="dialogFormWorkVisible = false">取 消</el-button>
-				<el-button type="primary" @click="dialogFormWorkVisible = false">确 定</el-button>
-			</div>
-        </el-dialog>
 
   </div>
 </template>
@@ -245,10 +170,27 @@
             cancelButtonText: '取消',
             type: 'warning'
             }).then(() => {
-            this.$message({
-                type: 'success',
-                message: '删除成功!'
-            });
+           
+						
+						RequestPost("/banner/delete",rows).then(response => {
+							
+							if(response.code=='0000'){
+								this.$message({
+									message: response.message,
+									type: 'success'
+								});  
+								this.dialogFormVisible = false;
+							}else{
+								this.$message({
+									message: response.message,
+									type: 'error'
+								});
+							}
+							this.dialogFormVisible = false;   
+							this.loadData();
+						}).catch(error => {
+						this.$router.push({ path: '/login' });
+						})
             this.dialogFormVisible = false;
             
             }).catch(() => {
@@ -260,10 +202,11 @@
       },
       edit(index,rows){
         this.dialogFormVisible = true;   
-		this.form = rows;
-		this.formtitle ="修改项目";
-		this.loadCity(this.form.provinceCode);
-		this.loadArea(this.form.cityCode);
+				this.form = rows;
+				this.formtitle ="修改广告";
+				this.showUpdate = 1;
+				this.loadCity(this.form.provinceCode);
+				this.loadArea(this.form.cityCode);
 		//alert(this.form.province+"city"+this.form.city+"province"+this.form.area);
 		// this.selectProvince(this.form.provinceCode);
 		// this.selectCity(this.form.cityCode);
@@ -277,17 +220,19 @@
 		this.form2 = rows;
 			
 	  },
-      add(){
+    add(){
 		this.dialogFormVisible = true;
+		this.showUpdate = 0;
 		
-		this.formtitle ="新增项目";   
+		this.formtitle ="新增广告";   
 		this.form = {
-			"provinceCode":"",
-			"cityCode":"",
-			"areaCode":"",
-			"code":sessionStorage.getItem("code"),
-			"sysWorkId":sessionStorage.getItem("userId"),
-			"state":"10"			
+			state:"10",
+			communityId:sessionStorage.getItem("communityId"),
+			startCount:0,
+			stopCount:0,
+			stopTime: new Date(),
+			title:"",
+			img:""			
 		};
         
       },
@@ -295,12 +240,12 @@
 
       },
       open2() {
-		  	if(this.formtitle =="新增项目"){
+		  	if(this.formtitle =="新增广告"){
 
 				  if(this.validate1() == false){
 					  return;
 				  }
-				  this.$confirm('新增项目, 是否继续?', '提示', {
+				  this.$confirm('新增广告, 是否继续?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
@@ -308,7 +253,7 @@
 
 						
 						//return;
-						RequestPost("/community/workAdd",this.form).then(response => {
+						RequestPost("/banner/add",this.form).then(response => {
 							
 							if(response.code=='0000'){
 								this.$message({
@@ -338,15 +283,15 @@
 					});
 
 			}else{
-				 if(this.validate1() == false){
-					  return;
-				  }
-				this.$confirm('修改项目, 是否继续?', '提示', {
+				//  if(this.validate1() == false){
+				// 	  return;
+				//   }
+				this.$confirm('修改广告, 是否继续?', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
 				}).then(() => {	
-					RequestPost("/community/update",this.form).then(response => {
+					RequestPost("/banner/update",this.form).then(response => {
 						
 						//this.logining = false; 
 						if(response.code=='0000'){
@@ -627,7 +572,7 @@
 	
 	loadData(){
 
-		RequestGet("/community/findAll",this.page).then(response => {
+		RequestGet("/banner/findAll",this.page).then(response => {
 						if(response.code == '0000'){
 								 this.datalist = response.data;
 								 this.total = response.page.totalCount; 
@@ -719,68 +664,54 @@
 
 
 	  },	
-	  validate1(){  //新增（修改）项目
+	  validate1(){  //新增（修改）广告
 	
 		
-		if(this.form.communityName =="" || this.form.communityName == null){
+		if(this.form.title =="" || this.form.title == null){
 				//this.warningText = ;
 				this.$message({
 					type: 'error',
-					message: "项目名字不能为空"
+					message: "广告标题不能为空"
 				});          
 				return false;
 		}
 
-		if(this.form.communityName.trim().length =="" ){
+		if(this.form.img.trim().length =="" ){
 				//this.warningText = ;
 				this.$message({
 					type: 'error',
-					message: "项目名字不能为空"
+					message: "广告地址不能为空"
 				});          
 				return false;
 		}
-		if(this.form.communityName.length>20){
+
+		if(this.form.startCount.trim().length =="" ){
+		
 				this.$message({
 					type: 'error',
-					message: "项目名字长度过大"
-				});    
-				return false;				
-		}
-		// if(this.form.masterNum <=0 || this.form.masterNum == null){
-		// 		this.$message({
-		// 			type: 'error',
-		// 			message: "主机数不能小于1"
-		// 		});
-		// 		return false;
-		// }
-		// if(this.form.userNum <=0 || this.form.userNum == null){
-		// 		this.$message({
-		// 			type: 'error',
-		// 			message: "用户数不能小于1"
-		// 		});
-		// 		return false;
-		// }
-		if(this.form.provinceCode.trim().length ==0 || this.form.provinceCode == null){
-				this.$message({
-					type: 'error',
-					message: "请选择省份"
-				});
+					message: "起始时间点不能为空"
+				});          
 				return false;
 		}
-		if(this.form.cityCode.trim().length ==0 || this.form.cityCode == null){
+
+		if(this.form.stopCount.trim().length =="" ){
+				//this.warningText = ;
 				this.$message({
 					type: 'error',
-					message: "请选择城市"
-				});
+					message: "结束时间点不能为空"
+				});          
 				return false;
 		}
-		if(this.form.areaCode.trim().length ==0 || this.form.areaCode == null){
+
+		if(this.form.stopTime.trim().length =="" ){
+				//this.warningText = ;
 				this.$message({
 					type: 'error',
-					message: "请选择区县"
-				});
+					message: "有效时间不能为空"
+				});          
 				return false;
 		}
+	
 
 	},
 
@@ -799,13 +730,21 @@
 		total:0,     //数据的总数量
 		totalsize:0,  //总的页数 = 总数量/每页显示的条数
 		currentPage:1,
+		showUpdate:0,
 		page:{
-			pageSize:PageSize   //一页显示的条数
+			pageSize:PageSize,   //一页显示的条数
+			communityId:sessionStorage.getItem("communityId")
 		},
 		datalist:[],
 		
 		listLoading: false,
-		form:{communityName:"",provinceCode:"",cityCode:"",areaCode:""},
+		form:{	state:"10",
+			communityId:sessionStorage.getItem("communityId"),
+			startCount:0,
+			stopCount:0,
+			stopTime: new Date(),
+			title:"",
+			img:""			},
 		form1:{},
 		form2:{},
 		dialogFormVisible:false,

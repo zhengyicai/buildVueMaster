@@ -63,7 +63,7 @@
 				<el-button size="small" type="warning"  v-if='scope.row.sysUserId!="" ||  scope.row.sysUserId !=null' @click="editAdmin(scope.$index,scope.row)">修改物业</el-button>
                 <el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button> -->
                 <el-button size="small" type="primary"  @click="edit(scope.$index,scope.row)">授权设备</el-button>
-                <el-button size="small" type="primary"   @click="updateRoom(scope.row)">房卡管理</el-button>
+                <!-- <el-button size="small" type="primary"   @click="updateRoom(scope.row)">房卡管理</el-button> -->
                 <!-- <el-button size="small" type="primary" @click="showRelationPanel(scope.$index,scope.row)">住房信息</el-button> -->
                 <!-- <el-button size="small" type="danger" @click="deleteRow(scope.$index,scope.row)">删除</el-button> -->
                 <el-button size="small" type="warning" v-if="scope.row.state==='10'"   @click="updateState(scope.row,'20')" >禁用</el-button>
