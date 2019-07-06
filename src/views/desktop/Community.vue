@@ -108,6 +108,12 @@
 				<el-form-item label="地址">
 					<el-input v-model="form.address"></el-input>
 				</el-form-item>
+				<el-form-item label="经度">
+					<el-input v-model="form.width1"></el-input>
+				</el-form-item>
+				<el-form-item label="纬度">
+					<el-input v-model="form.height1"></el-input>
+				</el-form-item>
 				<el-form-item label="状态">
 					<el-radio-group v-model="form.state">
 						<el-radio label="10">正常</el-radio>
@@ -805,7 +811,7 @@
 		datalist:[],
 		
 		listLoading: false,
-		form:{communityName:"",provinceCode:"",cityCode:"",areaCode:""},
+		form:{communityName:"",provinceCode:"",cityCode:"",areaCode:"",height1:"",width1:""},
 		form1:{},
 		form2:{},
 		dialogFormVisible:false,

@@ -37,6 +37,7 @@ let routes = [
         iconCls: 'fa fa-id-card-o',//图标样式class
         children: [
             { path: '/homeIndex',component: resolve => require(['./views/desktop/HomeIndex.vue'], resolve),  name: '主页' },
+            { path: '/homeIndexShow',component: resolve => require(['./views/desktop/HomeIndexShow.vue'], resolve),  name: '项目展示' },
             { path: '/community',component: resolve => require(['./views/desktop/Community.vue'], resolve), name: '项目管理' },
             { path: '/banner',component: resolve => require(['./views/desktop/Banner.vue'], resolve), name: '广告管理' },
             { path: '/building',component: resolve => require(['./views/desktop/Building.vue'], resolve), name: '楼栋管理' },

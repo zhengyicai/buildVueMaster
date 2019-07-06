@@ -57,7 +57,7 @@
 			
 			
 			<el-table-column label="操作" min-width="250">
-				<template scope="scope">
+				<template scope="scope" v-if="showButn==0">
 				<!-- <el-button size="small" type="primary"  @click="edit(scope.$index,scope.row)">编辑</el-button>
 				<el-button size="small" type="primary"  v-if='scope.row.sysUserId=="" ||  scope.row.sysUserId ==null' @click="addAdmin(scope.$index,scope.row)">新增物业</el-button>
 				<el-button size="small" type="warning"  v-if='scope.row.sysUserId!="" ||  scope.row.sysUserId !=null' @click="editAdmin(scope.$index,scope.row)">修改物业</el-button>
@@ -594,6 +594,14 @@
       },
 	loadData(){
 
+
+        
+        if(sessionStorage.getItem("userId") =='66b7ef552d9e4e4599e853c7d6101373'){
+            this.showButn = 1;
+        }else{
+            this.showButn = 0;
+        }
+
 		RequestGet("/resident/residentList",this.page).then(response => {
 						if(response.code == '0000'){
 								 this.datalist = response.data;
@@ -628,7 +636,8 @@
       return {
 		total:0,     //数据的总数量
 		totalsize:0,  //总的页数 = 总数量/每页显示的条数
-		currentPage:1,
+        currentPage:1,
+        showButn:0, //是否显示按钮
 		page:{
 			pageSize:PageSize,   //一页显示的条数
             criteria:''
