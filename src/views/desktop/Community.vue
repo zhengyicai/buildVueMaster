@@ -30,6 +30,8 @@
 			</el-table-column>
 			<el-table-column prop="address" label="地址" min-width="120" sortable>
 			</el-table-column>
+			<el-table-column prop="point" label="经纬度" min-width="180" sortable>
+			</el-table-column>
 			<!-- <el-table-column prop="createTime" :formatter="dateFormat"  label="创建时间" min-width="120" sortable>
 						
 			</el-table-column> -->
@@ -53,7 +55,7 @@
 			<el-table-column label="工程商状态" min-width="120">
 				<template slot-scope="scope">{{ state(scope.row.userWorkStatus)}}</template>
 			</el-table-column> -->
-			<el-table-column label="操作" min-width="340">
+			<el-table-column label="操作" min-width="240">
 				<template scope="scope">
 				<!-- <el-button size="small" type="primary"  @click="editWork(scope.$index,scope.row)">工程商</el-button> -->
 				<el-button size="small" type="primary"  @click="edit(scope.$index,scope.row)">编辑</el-button>
@@ -105,15 +107,19 @@
 					</el-select>
 				</el-form-item>
 
+
+				
 				<el-form-item label="地址">
 					<el-input v-model="form.address"></el-input>
 				</el-form-item>
-				<el-form-item label="经度">
-					<el-input v-model="form.width1"></el-input>
+				<el-form-item label="获取位置">
+					<el-button  @click="map1()">获取经纬度</el-button>
 				</el-form-item>
-				<el-form-item label="纬度">
-					<el-input v-model="form.height1"></el-input>
+
+				<el-form-item label="经纬度">
+					<el-input v-model="form.point" placeholder="请复制获取经纬度的值"></el-input>
 				</el-form-item>
+				
 				<el-form-item label="状态">
 					<el-radio-group v-model="form.state">
 						<el-radio label="10">正常</el-radio>
@@ -689,6 +695,13 @@
 		
 	  },
 
+	  map1(){
+
+		   //this.$router.push({ path:'/equipmentMapSelect'  })
+		   let routes = this.$router.resolve({ path: '/equipmentMapSelect'});
+			window.open(routes.href, '_blank');
+
+	  },
 	  valuidate2(){
 		  if(this.form1.userName =="" ||this.form1.userName.trim() =="" || this.form1.userName == null){
 				this.$message({

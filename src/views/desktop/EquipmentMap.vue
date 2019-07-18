@@ -1,6 +1,6 @@
 <template> 
  <div class="block">   
-	 	<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+	 	<el-col :span="20" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true">
 				<el-form-item style="width:300px">
 					<el-input v-model="page.criteria"  @keyup.enter.native="query"  placeholder="请输入设备[编号|名称]" style="width:300px"></el-input>
@@ -15,14 +15,14 @@
 				
 			</el-form>
 		</el-col>
-        <!-- <el-col :span="4" class="toolbar" style="padding-bottom: 0px;">
+        <el-col :span="4" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true">
 				
 				<el-form-item  style="text-align:right">
 					<el-button type="primary" @click="add()">新增</el-button>
 				</el-form-item>
 			</el-form>
-		</el-col> -->
+		</el-col>
       
         
 		<el-table :data="datalist" highlight-current-row v-loading="listLoading" style="width: 100%;">
@@ -44,7 +44,7 @@
 			<el-table-column  label="状态" min-width="120">
 				<template slot-scope="scope">{{ state(scope.row.state)}}</template>
 			</el-table-column>
-             <el-table-column  label="最新设备状态" min-width="150">
+            <el-table-column  label="最新设备状态" min-width="150">
                 
 				<template slot-scope="scope"><span class="span" v-if="scope.row.nowDateStatus=='离线'"><i class="tip"></i></span> <span class="span" v-if="scope.row.nowDateStatus=='在线'"><i class="tip" style="background:green;"></i></span>{{scope.row.nowDateStatus}}</template>
 			</el-table-column>
@@ -59,7 +59,6 @@
 			
 			<el-table-column label="操作" min-width="250">
 				<template scope="scope">
-                    
 				<!-- <el-button size="small" type="primary"  @click="edit(scope.$index,scope.row)">编辑</el-button>
 				<el-button size="small" type="primary"  v-if='scope.row.sysUserId=="" ||  scope.row.sysUserId ==null' @click="addAdmin(scope.$index,scope.row)">新增物业</el-button>
 				<el-button size="small" type="warning"  v-if='scope.row.sysUserId!="" ||  scope.row.sysUserId !=null' @click="editAdmin(scope.$index,scope.row)">修改物业</el-button> -->
@@ -120,9 +119,8 @@
         </el-dialog>
 
 
-
         <el-dialog   title="设备详情" :visible.sync="updateDialogFormVisible" >
-            <table border="1" style="border:0px">
+                <table border="1" style="border:0px">
 				<tr>
 				  <th  style="width:200px">参数名</th>
 				  <th style="width:300px">参数值</th>
@@ -220,8 +218,6 @@
 					<td id="value26">{{cc[25]}}</td>
 				</tr>	
 			</table>
-				
-				
 
         </el-dialog>
 
@@ -376,7 +372,7 @@
       },
       getUsers(){},
 
-      updateRow(index,rows){
+     updateRow(index,rows){
             this.subData1 = rows;
             this.updateDialogFormVisible = true;
             this.subData1.equipmentName = rows.equipmentName;
@@ -385,7 +381,7 @@
 
             var a1=['供电单元','主电','备电','充电','电池1','电池2','电池3','电池4','电流','环境指数','氧气','CO','CO2','SO2','温度','湿度','风压','设备状态','烟感报警','风机','喷淋电磁阀','报警灯','报警提示','开舱开关','关舱开关','系统状态提示栏'];
             
-            this.cc = ["","","","","","","","","","","","","","","","","","","","","","","","","",""];
+            this.cc = [];
             this.equNo = rows.equNo;
             // RequestGet("/equipment/getRedisEqu",{equNo:rows.equNo}).then(response => {
 			// 		var equParam = response.data;
@@ -403,9 +399,7 @@
             //                 this.$router.push({ path: '/login' });
                             
             // }) 
-          //this.aaa();
-
-           this.time11 = setInterval(()=>{
+            this.time11 = setInterval(()=>{
             this.aaa()
             },3000)
             this.aaa();
@@ -421,14 +415,14 @@
 
       aaa(){
 
+
             if(this.updateDialogFormVisible==false){
                 //alert("true");
                 clearInterval(this.time11); 
               
             }
-          
            var a1=['供电单元','主电','备电','充电','电池1','电池2','电池3','电池4','电流','环境指数','氧气','CO','CO2','SO2','温度','湿度','风压','设备状态','烟感报警','风机','喷淋电磁阀','报警灯','报警提示','开舱开关','关舱开关','系统状态提示栏'];
-            //alert(document.querySelector('#value1').innerHTML);
+            
             this.cc = [];
             RequestGet("/equipment/getRedisEqu",{equNo:this.equNo}).then(response => {
 					var equParam = response.data;
@@ -451,25 +445,6 @@
 
 
 
-      },
-
-      loadDetail(){
-             RequestGet("/equipment/getRedisEqu",{equNo:rows.equNo}).then(response => {
-					var equParam = response.data;
-                    if(equParam!=null){
-                        if(equParam.length>0){
-                            var aa = equParam.split(",");
-                            for(var i= 0;i<a1.length;i++){
-                                this.cc.push({key1:a1[i],value1:aa[i]});
-                            }
-                        }	
-                    }
-					
-                        
-            }).catch(error => {
-                            this.$router.push({ path: '/login' });
-                            
-            })  
       },
  
 	  deleteRow(index, rows) {
@@ -520,8 +495,9 @@
 
 	
 	loadData(){
-
-		RequestGet("/equipment/findAll",this.page).then(response => {
+        
+        this.page.communityId = this.$route.query.id;
+		RequestGet("/equipment/findCommunityIdAll",this.page).then(response => {
 						if(response.code == '0000'){
 								 this.datalist = response.data;
 								 this.total = response.page.totalCount; 
@@ -531,13 +507,7 @@
 		}).catch(error => {
 						 this.$router.push({ path: '/login' });
 						
-        })  
-
-
-      
-        
-
-       
+		})  
         
 						
 	
@@ -744,11 +714,9 @@
 		page:{
 			pageSize:PageSize,   //一页显示的条数
             criteria:''
-        },
-        cc:["","","","","","","","","","","","","","","","","","","","","","","","","",""],
-        equNo:"",
+		},
 		datalist:[],
-		
+		cc:[],
 		listLoading: false,
         form:{},
         communityNo:"",
@@ -775,7 +743,6 @@
         updateDialogFormVisible:false,
         subData1:{newequId:""},
         time11:"",
-        
 
       };
     }
@@ -799,7 +766,7 @@
         right:0px;
         position:absolute;
     }
-    .tableText{
+     .tableText{
 			height: 50px;
 			
     }

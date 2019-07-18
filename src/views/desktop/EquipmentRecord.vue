@@ -25,7 +25,7 @@
 		<el-table :data="datalist" highlight-current-row v-loading="listLoading" style="width: 100%; margin-top:20px">
 		
 			
-			<el-table-column prop="name" label="姓名" width="120" sortable>
+			<el-table-column prop="name" label="姓名" width="150" sortable>
 			</el-table-column>
 			<el-table-column prop="mobile" label="手机号" width="150" sortable>
 			</el-table-column>
@@ -33,7 +33,7 @@
 			</el-table-column>
             <el-table-column prop="equipmentNo" label="设备编号" width="150" sortable>
 			</el-table-column>
-			<el-table-column  label="创建时间" min-width="120">
+			<el-table-column  label="创建时间" min-width="150">
 				<template slot-scope="scope">{{ scope.row.createTime | moment('YYYY-MM-DD HH:mm:ss') }}</template>
 			</el-table-column>
             <el-table-column prop="wxId" label="微信" width="300" sortable>
@@ -46,27 +46,27 @@
 			</el-table-column>
             <el-table-column prop="identityNo" label="身份证编号" width="170" sortable>
 			</el-table-column> -->
-			<el-table-column  label="状态" min-width="120">
+			<!-- <el-table-column  label="状态" min-width="120">
 				<template slot-scope="scope">{{recordType(scope.row.state)}}</template>
-			</el-table-column>
-            <el-table-column prop="remark" label="留言" width="170" sortable>
+			</el-table-column> -->
+            <!-- <el-table-column prop="remark" label="留言" width="170" sortable> -->
 			</el-table-column>
 			
 			
-			<el-table-column label="操作" min-width="70">
-				<template scope="scope">
+			<el-table-column label="操作" min-width="170">
+				<!-- <template scope="scope"> -->
 				<!-- <el-button size="small" type="primary"  @click="edit(scope.$index,scope.row)">编辑</el-button>
 				<el-button size="small" type="primary"  v-if='scope.row.sysUserId=="" ||  scope.row.sysUserId ==null' @click="addAdmin(scope.$index,scope.row)">新增物业</el-button>
 				<el-button size="small" type="warning"  v-if='scope.row.sysUserId!="" ||  scope.row.sysUserId !=null' @click="editAdmin(scope.$index,scope.row)">修改物业</el-button>
                 <el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button> -->
-                <el-button size="small" type="primary"  @click="edit(scope.$index,scope.row)">查看开锁图片</el-button>
+                <!-- <el-button size="small" type="primary"  @click="edit(scope.$index,scope.row)">查看开锁图片</el-button> -->
                 <!-- <el-button size="small" type="primary"   @click="updateRoom(scope.row)">房卡管理</el-button> -->
                 <!-- <el-button size="small" type="primary" @click="showRelationPanel(scope.$index,scope.row)">住房信息</el-button> -->
                 <!-- <el-button size="small" type="danger" @click="deleteRow(scope.$index,scope.row)">删除</el-button> -->
                 <!-- <el-button size="small" type="warning" v-if="scope.row.state==='10'"   @click="updateState(scope.row,'20')" >禁用</el-button>
                 <el-button size="small" type="success" v-if="scope.row.state==='20'" @click="updateState(scope.row,'10')" >启用</el-button>
                 <el-button size="small" type="info" v-if="scope.row.state==='30'"  @click="updateState(scope.row,'10')">授权</el-button> -->
-				</template>
+				<!-- </template> -->
 			</el-table-column>
 		</el-table>
 

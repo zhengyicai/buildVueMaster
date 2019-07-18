@@ -5,8 +5,7 @@
         </div>
 </template>
 <script>
-    import { RequestPost } from '../../api/api';
-    import { RequestGet } from '../../api/api';
+
     import { routeUrl } from '../../api/api';
     export default {
         name:'',
@@ -16,10 +15,7 @@
             }
         },
         mounted:function(){
-
-
-             	RequestGet("/equipment/findCommunityAll",{}).then(response => {
-                    var markerArr = response.data;
+             
                 
                     var map = new BMap.Map("boxMap"); // 创建Map实例  
                     var point = new BMap.Point(113.312213, 23.147267); //地图中心点，广州市  
@@ -48,57 +44,18 @@
                     var point = new Array(); //存放标注点经纬信息的数组  
                     var marker = new Array(); //存放标注点对象的数组  
                     var info = new Array(); //存放提示信息窗口对象的数组  
-                    for (var i = 0; i < markerArr.length; i++) {  
-                        var bb = i;
-                        var p0 = markerArr[i].point.split(",")[0]; //  
-                        var p1 = markerArr[i].point.split(",")[1]; //按照原数组的point格式将地图点坐标的经纬度分别提出来  
-                        point[i] = new window.BMap.Point(p0, p1); //循环生成新的地图点  
-                        marker[i] = new window.BMap.Marker(point[i]); //按照地图点坐标生成标记  
-                        map.addOverlay(marker[i]);  
-                        marker[i].setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画  
-                        var label = new window.BMap.Label(markerArr[i].communityName, { offset: new window.BMap.Size(20, -10) });  
-                        marker[i].setLabel(label);  
-                       
-                        info[bb] = new window.BMap.InfoWindow("<p  style=’font-size:12px;lineheight:1.8em;’>" + markerArr[bb].communityName + "</br>地址：" + markerArr[bb].address + "</br> 设备列表： <a href='"+routeUrl+"/#/equipmentMap?id="+markerArr[bb].id+"'   style='color:red'>点击查看</a></br></p>"); // 创建信息窗口对象  
-
                    
-                   }  
-                  
-                    for(let j = 0;j<markerArr.length;j++){
-                  
-                         marker[j].addEventListener("click", function () {  
-                          
-                           console.log(j);
-                           this.openInfoWindow(info[j]);  
-                        });  
-                        
-                       
-                    }
-                   
-                    // marker[1].addEventListener("mouseover", function () {  
-                    //     this.openInfoWindow(info[1]);  
-                    // });  
-                    // marker[2].addEventListener("mouseover", function () {  
-                    //     this.openInfoWindow(info[2]);  
-                    // });  
-
-                    //  marker[3].addEventListener("mouseover", function () {  
-                    //     this.openInfoWindow(info[3]);  
-                    // });  
                 
                 
                     map.addEventListener('click', function (e) {
                         // _this.location.lng = parseFloat(e.point.lng).toFixed(3);
                         // _this.location.lat = parseFloat(e.point.lat).toFixed(3);
-                      //  alert(parseFloat(e.point.lng).toFixed(3)+","+parseFloat(e.point.lat).toFixed(3));
+                        alert(parseFloat(e.point.lng).toFixed(3)+","+parseFloat(e.point.lat).toFixed(3));
+                        window.opener=null;
+                        window.open('','_self');
+                        window.close();
+                                                
                     })
-
-              
-                                
-                }).catch(error => {
-                         this.$router.push({ path: '/login' });
-                                    
-                })     
 
               
 

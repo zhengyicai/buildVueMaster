@@ -104,11 +104,11 @@
         </el-dialog>
 
 
-         <el-dialog   :title="formtitle" :visible.sync="dialogFormVisibleEqu" width="70%" >
+         <el-dialog   title="授权设备" :visible.sync="dialogFormVisibleEqu" width="70%" >
           
             <el-row>
                 <el-col :span="24" style="font-size:14px;">
-                    <el-card header="小区设备">
+                    <el-card header="授权设备">
                             <table>
                             <label style="font-weight:bold"><input type="checkbox" :checked="choOne"  @click="isSelectedOne($event)"/>全选</label>
                             <tr style="text-align:left">
@@ -125,7 +125,7 @@
             </el-row>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="dialogFormVisibleEqu = false">取 消</el-button>
-				<el-button type="primary" @click="addCho()">确 定</el-button>
+				<el-button type="primary" @click="addCho()">确认授权</el-button>
 			</div>
         </el-dialog>
 
@@ -595,12 +595,16 @@
 	loadData(){
 
 
+
         
         if(sessionStorage.getItem("userId") =='66b7ef552d9e4e4599e853c7d6101373'){
             this.showButn = 1;
         }else{
             this.showButn = 0;
         }
+
+
+        this.page.communityId = sessionStorage.getItem("communityId");
 
 		RequestGet("/resident/residentList",this.page).then(response => {
 						if(response.code == '0000'){

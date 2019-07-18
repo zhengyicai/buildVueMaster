@@ -33,9 +33,9 @@
 						
 			</el-table-column> -->
 		
-			<el-table-column  label="顺序" min-width="120">
+			<!-- <el-table-column  label="顺序" min-width="120">
 				<template slot-scope="scope">{{ scope.row.bannerIdx +1 }}</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column  label="创建时间" min-width="120">
 				<template slot-scope="scope">{{ scope.row.createTime | moment('YYYY-MM-DD') }}</template>
 			</el-table-column>
@@ -97,10 +97,10 @@
 				</el-form-item>
 
 				<el-form-item label="起始时间点">
-					<el-input v-model="form.startCount"></el-input>
+					<el-input type="number" v-model="form.startCount"></el-input>
 				</el-form-item>
 				<el-form-item label="结束时间点">
-					<el-input v-model="form.stopCount"></el-input>
+					<el-input type="number" v-model="form.stopCount"></el-input>
 				</el-form-item>
 
 				<el-form-item label="有效时间" v-if='showUpdate =="0"'>
@@ -685,7 +685,7 @@
 				return false;
 		}
 
-		if(this.form.startCount.trim().length =="" ){
+		if((this.form.startCount+"").trim().length =="" ){
 		
 				this.$message({
 					type: 'error',
@@ -694,7 +694,7 @@
 				return false;
 		}
 
-		if(this.form.stopCount.trim().length =="" ){
+		if((this.form.stopCount+"").trim().length =="" ){
 				//this.warningText = ;
 				this.$message({
 					type: 'error',

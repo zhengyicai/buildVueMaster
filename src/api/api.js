@@ -8,8 +8,12 @@ import router from '../routes';
 let base = '';
 //访问接口服务器
 //export const url  = "http://123.207.121.118:8080/cms";
-//export const url  = "http://192.168.1.103:8080/cms";
+//export const url  = "http://127.0.0.1:8080/cms";
 export const url  = "http://129.28.40.145:8080/cms";
+
+export const routeUrl  = "http://youmohome.zhcloudshare.com";
+
+//export const routeUrl  = "http://127.0.0.1:8090";
 export const PageSize  = 10;
 
 // export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
