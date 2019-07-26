@@ -97,14 +97,40 @@
 				</el-form-item>
 
 				<el-form-item label="起始时间点">
-					<el-input type="number" v-model="form.startCount"></el-input>
+					<!-- <el-input type="number" v-model="form.startCount"></el-input> -->
+
+					 <el-select v-model="form.startCount" placeholder="请选择">
+						<el-option
+						v-for="item in options1"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value"
+						>
+						</el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item label="结束时间点">
-					<el-input type="number" v-model="form.stopCount"></el-input>
+					<!-- <el-input type="number" v-model="form.stopCount"></el-input> -->
+					<el-select v-model="form.stopCount" placeholder="请选择">
+						<el-option
+						v-for="item in options2"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value"
+						>
+						</el-option>
+					</el-select>
 				</el-form-item>
 
 				<el-form-item label="有效时间" v-if='showUpdate =="0"'>
-					<el-input type="date" v-model="form.stopTime"></el-input>
+					<!-- <el-input type="date" v-model=""></el-input> -->
+					<el-date-picker
+						v-model="form.stopTime"
+						align="right"
+						type="date"
+						placeholder="选择日期"
+						>
+					</el-date-picker>
 				</el-form-item>
 
 				<el-form-item label="状态">
@@ -241,7 +267,8 @@
       },
       open2() {
 		  	if(this.formtitle =="新增广告"){
-
+					  
+				 
 				  if(this.validate1() == false){
 					  return;
 				  }
@@ -703,7 +730,17 @@
 				return false;
 		}
 
-		if(this.form.stopTime.trim().length =="" ){
+		if((this.form.stopTime+"").trim().length =="" ){
+				//this.warningText = ;
+				this.$message({
+					type: 'error',
+					message: "有效时间不能为空"
+				});          
+				return false;
+		}
+
+
+		if((this.form.stopTime+"") =="underfined"){
 				//this.warningText = ;
 				this.$message({
 					type: 'error',
@@ -757,7 +794,159 @@
 		dialogFormAdminUpdateVisible:false,
 		dialogFormWorkVisible:false,  //工程商
 		isEditUser:false, //是否禁用
-		warningText:"" //警告语
+		warningText:"", //警告语
+		options1: [{
+          value: '0',
+          label: '0'
+        }, {
+          value: '1',
+          label: '1'
+        }, {
+          value: '2',
+          label: '2'
+        }, {
+          value: '3',
+          label: '3'
+        }, {
+          value: '4',
+          label: '4'
+        },{
+          value: '5',
+          label: '5'
+        }, {
+          value: '6',
+          label: '6'
+        }, {
+          value: '7',
+          label: '7'
+        }, {
+          value: '8',
+          label: '8'
+        }, {
+          value: '9',
+          label: '9'
+        },{
+          value: '10',
+          label: '10'
+        }, {
+          value: '11',
+          label: '11'
+        }, {
+          value: '12',
+          label: '12'
+        }, {
+          value: '13',
+          label: '13'
+        }, {
+          value: '14',
+          label: '14'
+        },{
+          value: '15',
+          label: '15'
+        }, {
+          value: '16',
+          label: '16'
+        }, {
+          value: '17',
+          label: '17'
+        }, {
+          value: '18',
+          label: '18'
+        }, {
+          value: '19',
+          label: '19'
+        },{
+          value: '20',
+          label: '20'
+        }, {
+          value: '21',
+          label: '21'
+        }, {
+          value: '22',
+          label: '22'
+        }, {
+          value: '23',
+          label: '23'
+        }, {
+          value: '24',
+          label: '24'
+		}],
+		options2: [{
+          value: '0',
+          label: '0'
+        }, {
+          value: '1',
+          label: '1'
+        }, {
+          value: '2',
+          label: '2'
+        }, {
+          value: '3',
+          label: '3'
+        }, {
+          value: '4',
+          label: '4'
+        },{
+          value: '5',
+          label: '5'
+        }, {
+          value: '6',
+          label: '6'
+        }, {
+          value: '7',
+          label: '7'
+        }, {
+          value: '8',
+          label: '8'
+        }, {
+          value: '9',
+          label: '9'
+        },{
+          value: '10',
+          label: '10'
+        }, {
+          value: '11',
+          label: '11'
+        }, {
+          value: '12',
+          label: '12'
+        }, {
+          value: '13',
+          label: '13'
+        }, {
+          value: '14',
+          label: '14'
+        },{
+          value: '15',
+          label: '15'
+        }, {
+          value: '16',
+          label: '16'
+        }, {
+          value: '17',
+          label: '17'
+        }, {
+          value: '18',
+          label: '18'
+        }, {
+          value: '19',
+          label: '19'
+        },{
+          value: '20',
+          label: '20'
+        }, {
+          value: '21',
+          label: '21'
+        }, {
+          value: '22',
+          label: '22'
+        }, {
+          value: '23',
+          label: '23'
+        }, {
+          value: '24',
+          label: '24'
+        }],
 
 
       };

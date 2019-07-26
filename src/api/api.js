@@ -11,7 +11,7 @@ let base = '';
 //export const url  = "http://127.0.0.1:8080/cms";
 export const url  = "http://129.28.40.145:8080/cms";
 
-export const routeUrl  = "http://youmohome.zhcloudshare.com";
+export const routeUrl  = "http://youmohome.zhcloudshare.com/admin";
 
 //export const routeUrl  = "http://127.0.0.1:8090";
 export const PageSize  = 10;
