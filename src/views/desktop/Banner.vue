@@ -39,6 +39,9 @@
 			<el-table-column  label="创建时间" min-width="120">
 				<template slot-scope="scope">{{ scope.row.createTime | moment('YYYY-MM-DD') }}</template>
 			</el-table-column>
+			<el-table-column  label="生效时间" min-width="120">
+				<template slot-scope="scope">{{ scope.row.startTime | moment('YYYY-MM-DD') }}</template>
+			</el-table-column>
 			<el-table-column  label="有效时间" min-width="120">
 				<template slot-scope="scope">{{ scope.row.stopTime | moment('YYYY-MM-DD') }}</template>
 			</el-table-column>
@@ -121,8 +124,11 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
+				<el-form-item label="生效时间" >
+					<el-input type="date" v-model="form.startTime"></el-input>
+				</el-form-item>
 
-				<el-form-item label="有效时间" v-if='showUpdate =="0"'>
+				<el-form-item label="有效时间" >
 					<!-- <el-input type="date" v-model=""></el-input> -->
 					<el-date-picker
 						v-model="form.stopTime"
@@ -225,12 +231,32 @@
                 message: '已取消删除'
             });          
             });
-      },
+	  },
+	  
+	  transformTime(timestamp = +new Date()) {
+			if (timestamp) {
+				var time = new Date(timestamp);
+				var y = time.getFullYear(); //getFullYear方法以四位数字返回年份
+				
+				var M = time.getMonth() + 1; // getMonth方法从 Date 对象返回月份 (0 ~ 11)，返回结果需要手动加一
+				var d = time.getDate(); // getDate方法从 Date 对象返回一个月中的某一天 (1 ~ 31)
+				var h = time.getHours(); // getHours方法返回 Date 对象的小时 (0 ~ 23)
+				var m = time.getMinutes(); // getMinutes方法返回 Date 对象的分钟 (0 ~ 59)
+				var s = time.getSeconds(); // getSeconds方法返回 Date 对象的秒数 (0 ~ 59)
+				return y + '-' + (M<10?("0"+M):M) + '-' + (d<10?("0"+d):d) + ' ' + h + ':' + m + ':' + s;
+			} else {
+				return '';
+			}
+		},
       edit(index,rows){
         this.dialogFormVisible = true;   
 				this.form = rows;
 				this.formtitle ="修改广告";
 				this.showUpdate = 1;
+				this.form.startTime =  (this.transformTime(this.form.startTime)+"").substr(0,10);
+				this.form.stopTime = (this.transformTime(this.form.stopTime)+"").substr(0,10);
+				//alert(this.form.stopTime);
+				
 				this.loadCity(this.form.provinceCode);
 				this.loadArea(this.form.cityCode);
 		//alert(this.form.province+"city"+this.form.city+"province"+this.form.area);
@@ -257,6 +283,7 @@
 			startCount:0,
 			stopCount:0,
 			stopTime: new Date(),
+			startTime: new Date(),
 			title:"",
 			img:""			
 		};
@@ -730,7 +757,18 @@
 				return false;
 		}
 
-		if((this.form.stopTime+"").trim().length =="" ){
+
+		if(this.form.startTime.trim().length =="" ){
+				//this.warningText = ;
+				this.$message({
+					type: 'error',
+					message: "生效时间不能为空"
+				});          
+				return false;
+		}
+
+		if(this.form.stopTime.trim().length =="" ){
+
 				//this.warningText = ;
 				this.$message({
 					type: 'error',
@@ -780,6 +818,7 @@
 			startCount:0,
 			stopCount:0,
 			stopTime: new Date(),
+			startTime:new Date(),
 			title:"",
 			img:""			},
 		form1:{},

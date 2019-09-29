@@ -9,7 +9,7 @@ let base = '';
 //访问接口服务器
 //export const url  = "http://123.207.121.118:8080/cms";
 //export const url  = "http://127.0.0.1:8080/cms";
-export const url  = "http://129.28.40.145:8080/cms";
+export const url  = "http://youmo.umo119.com:8080/cms";
 
 export const routeUrl  = "http://youmohome.zhcloudshare.com/admin";
 
